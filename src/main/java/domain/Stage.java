@@ -28,4 +28,8 @@ public class Stage implements Serializable {
 	private Long id;
 
 	private String name;
+
+	public Stage(String name) {
+		this.name = name;
+	}
 }

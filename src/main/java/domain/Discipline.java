@@ -32,4 +32,9 @@ public class Discipline implements Serializable {
 
 	@ManyToOne
 	private Sport sport;
+
+	public Discipline(String name, Sport sport) {
+		this.name = name;
+		this.sport = sport;
+	}
 }

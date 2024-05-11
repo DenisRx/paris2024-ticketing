@@ -33,4 +33,9 @@ public class Ticket implements Serializable {
 
 	@ManyToOne
 	private Match match;
+
+	public Ticket(User user, Match match) {
+		this.user = user;
+		this.match = match;
+	}
 }

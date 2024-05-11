@@ -57,6 +57,24 @@ public class Match implements Serializable {
 	@ManyToMany
 	private Set<Discipline> disciplines = new HashSet<>();
 
+	public Match(Sport sport, Date startDateTime, Stage stage, int olympicNumber1, int olympicNumber2,
+			BigDecimal ticketPrice, int seatsNumber) {
+		this.sport = sport;
+		this.startDateTime = startDateTime;
+		this.stage = stage;
+		this.olympicNumber1 = olympicNumber1;
+		this.olympicNumber2 = olympicNumber2;
+		this.ticketPrice = ticketPrice;
+		this.seatsNumber = seatsNumber;
+		this.remainingSeats = seatsNumber;
+	}
+
+	public Match(Sport sport, Date startDateTime, Stage stage, int olympicNumber1, int olympicNumber2,
+			BigDecimal ticketPrice, int seatsNumber, Set<Discipline> disciplines) {
+		this(sport, startDateTime, stage, olympicNumber1, olympicNumber2, ticketPrice, seatsNumber);
+		this.disciplines = disciplines;
+	}
+
 	public void addDiscipline(Discipline discipline) {
 		disciplines.add(discipline);
 	}
