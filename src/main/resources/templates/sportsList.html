@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Sports</title>
+</head>
+<body>
+
+	<h1>Sports</h1>
+	<ul>
+		<li th:each="sport : ${sports}">
+			<a th:href="@{/sports/{id}(id=${sport.id})}" th:text="${sport.name}"></a>
+		</li>
+	</ul>
+
+</body>
+</html>
