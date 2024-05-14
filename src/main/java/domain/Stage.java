@@ -17,7 +17,7 @@ import lombok.ToString;
 @Table(name = "stages")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "name")
 @ToString
 public class Stage implements Serializable {
 

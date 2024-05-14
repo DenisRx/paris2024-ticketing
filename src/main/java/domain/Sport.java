@@ -17,7 +17,7 @@ import lombok.ToString;
 @Table(name = "sports")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode(of = "name")
 @ToString
 public class Sport implements Serializable {
 

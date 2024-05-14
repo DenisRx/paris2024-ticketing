@@ -25,7 +25,7 @@ import lombok.ToString;
 @Table(name = "matches")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = { "sport", "olympicNumber1", "olympicNumber2" })
 @ToString
 public class Match implements Serializable {
 
