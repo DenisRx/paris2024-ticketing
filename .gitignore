@@ -33,4 +33,15 @@ build/
 .vscode/
 
 
+### MacOS ###
 .DS_Store
+
+### Visual Paradigm ###
+.vpprefdata/
+*.vpp~*
+*.vpp.working
+*.vpp.working-journal
+*.lock
+*.lck
+tmp/*
+*.vpp.bak_*
