@@ -12,7 +12,7 @@
 	
 	<ul>
 		<li th:each="sport : ${sports}">
-			<a th:href="@{/sports/{id}(id=${sport.id})}" th:text="${sport.name}"></a>
+			<a th:href="|/sports/${sport.id}|" th:text="${sport.name}"></a>
 		</li>
 	</ul>
 

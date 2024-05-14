@@ -2,10 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title th:text="${sport.name}"></title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<title th:text="${sportName}"></title>
 </head>
 <body>
 
-	<h1 th:text="${sport.name}"></h1>
+	<h1 th:text="${sportName}"></h1>
+
+	<div th:if="${competitions != null && competitions.isEmpty == false}">	
+		<h2 th:text="#{sportDetails.secondaryTitle}"></h2>
+	
+		<table>
+			<thead>
+				<tr>
+					<th th:text="#{sportDetails.table.schedule}"></th>
+					<th th:text="#{sportDetails.table.stage}"></th>
+					<th th:text="#{sportDetails.table.disciplines}"></th>
+					<th th:text="#{sportDetails.table.placesLeft}"></th>
+					<th th:text="#{sportDetails.table.ticketPrice}"></th>
+					<th th:text="#{sportDetails.table.ticketsBought}"></th>
+				</tr>
+			</thead>
+			<tbody th:each="competition : ${competitions}">
+				<tr>
+					<td th:text="${competition.startDateTime}"></td>
+					<td th:text="${competition.stage.name}"></td>
+					<td>
+						<ul th:each="discipline : ${competition.disciplines}">
+							<li th:text="${discipline.name}"></li>
+						</ul>
+					</td>
+					<td th:text="${competition.remainingSeats}"></td>
+					<td th:text="${competition.ticketPrice}"></td>
+					<td th:text="|1 ticket bought|"></td> <!-- TODO: replace by real number of tickets bought -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:unless="${competitions != null && competitions.isEmpty == false}">
+		<p th:text="#{sportDetails.noCompetitions}"></p>
+	</div>
 </body>
 </html>

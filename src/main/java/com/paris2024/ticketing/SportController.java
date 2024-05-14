@@ -10,31 +10,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import domain.Sport;
+import repository.CompetitionRepository;
 import repository.SportRepository;
 
 @Controller
 @RequestMapping("/sports")
-public class SportsController {
+public class SportController {
 
 	@Autowired
-	private SportRepository repository;
+	private SportRepository sportRepository;
+
+	@Autowired
+	private CompetitionRepository competitionRepository;
 
 	@GetMapping
 	public String showSports(Model model) {
-		model.addAttribute("sports", repository.findAll());
+		model.addAttribute("sports", sportRepository.findAll());
 
 		return "sportsList";
 	}
 
 	@GetMapping("/{id}")
-	public String showSport(@PathVariable Long id, Model model) {
-		Optional<Sport> sport = repository.findById(id);
+	public String showSport(@PathVariable long id, Model model) {
+		Optional<Sport> sport = sportRepository.findById(id);
 
 		if (!sport.isPresent()) {
+			// TODO: replace by 404 page
 			return "redirect:/sports";
 		}
 
-		model.addAttribute("sport", sport.get());
+		model.addAttribute("sportName", sport.get().getName());
+		model.addAttribute("competitions", competitionRepository.findAllBySportId((long) id));
 
 		return "sportDetails";
 	}
