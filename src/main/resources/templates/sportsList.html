@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Sports</title>
+<title th:text="#{sports.title}"></title>
 </head>
 <body>
 
-	<h1>Sports</h1>
+	<h1 th:text="#{sports.title}"></h1>
 	
-	<a href="/tickets"><Button th:text="|View tickets|"></Button></a>
+	<a href="/tickets"><Button th:text="#{sports.viewTickets.button}"></Button></a>
 	
 	<ul>
 		<li th:each="sport : ${sports}">

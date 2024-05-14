@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Tickets</title>
+<title th:text="#{tickets.title}"></title>
 </head>
 <body>
 
-	<h1>My tickets</h1>
+	<h1 th:text="#{tickets.mainTitle}"></h1>
 	
 	<ul>
 		<li th:each="ticket : ${tickets}" th:text="|${ticket.competition.sport.name}, ${ticket.competition.startDateTime} -> ${ticket.competition.stage.name}|">
