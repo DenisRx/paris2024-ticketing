@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Tickets</title>
+</head>
+<body>
+
+	<h1>My tickets</h1>
+	
+	<ul>
+		<li th:each="ticket : ${tickets}" th:text="|${ticket.competition.sport.name}, ${ticket.competition.startDateTime} -> ${ticket.competition.stage.name}|">
+		</li>
+	</ul>
+	
+</body>
+</html>

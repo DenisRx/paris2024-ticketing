@@ -7,6 +7,9 @@
 <body>
 
 	<h1>Sports</h1>
+	
+	<a href="/tickets"><Button th:text="|View tickets|"></Button></a>
+	
 	<ul>
 		<li th:each="sport : ${sports}">
 			<a th:href="@{/sports/{id}(id=${sport.id})}" th:text="${sport.name}"></a>
