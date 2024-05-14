@@ -32,10 +32,10 @@ public class Ticket implements Serializable {
 	private User user;
 
 	@ManyToOne
-	private Match match;
+	private Competition competition;
 
-	public Ticket(User user, Match match) {
+	public Ticket(User user, Competition competition) {
 		this.user = user;
-		this.match = match;
+		this.competition = competition;
 	}
 }

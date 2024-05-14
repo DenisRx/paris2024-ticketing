@@ -10,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import domain.Competition;
 import domain.Discipline;
-import domain.Match;
 import domain.Role;
 import domain.Sport;
 import domain.Stage;
 import domain.Ticket;
 import domain.User;
+import repository.CompetitionRepository;
 import repository.DisciplineRepository;
-import repository.MatchRepository;
 import repository.SportRepository;
 import repository.StageRepository;
 import repository.TicketRepository;
@@ -31,7 +31,7 @@ public class InitDataConfig implements CommandLineRunner {
 	private DisciplineRepository disciplineRepository;
 
 	@Autowired
-	private MatchRepository matchRepository;
+	private CompetitionRepository competitionRepository;
 
 	@Autowired
 	private SportRepository sportRepository;
@@ -78,20 +78,20 @@ public class InitDataConfig implements CommandLineRunner {
 		Calendar date2 = date1;
 		date2.set(Calendar.DAY_OF_MONTH, 26);
 		date2.set(Calendar.HOUR, 16);
-		List<Match> matches = List.of(
-				new Match(sports.get(0), date1.getTime(), stages.get(0), 12345, 22345, new BigDecimal(75.00), 500,
+		List<Competition> competitions = List.of(
+				new Competition(sports.get(0), date1.getTime(), stages.get(0), 12345, 22345, new BigDecimal(75.00), 500,
 						new HashSet<Discipline>(List.of(disciplines.get(0)))),
-				new Match(sports.get(0), date2.getTime(), stages.get(0), 12346, 22346, new BigDecimal(80.00), 500,
+				new Competition(sports.get(0), date2.getTime(), stages.get(0), 12346, 22346, new BigDecimal(80.00), 500,
 						new HashSet<Discipline>(List.of(disciplines.get(1)))));
-		matchRepository.saveAll(matches);
+		competitionRepository.saveAll(competitions);
 
 		List<User> users = List.of(new User("admin@student.hogent.be", "password", "Admin", "ADMIN", Role.ADMIN),
 				new User("user1@student.hogent.be", "password", "User1", "USER", Role.USER),
 				new User("user2@student.hogent.be", "password", "User2", "USER", Role.USER));
 		userRepository.saveAll(users);
 
-		List<Ticket> tickets = List.of(new Ticket(users.get(1), matches.get(0)),
-				new Ticket(users.get(2), matches.get(0)), new Ticket(users.get(2), matches.get(1)));
+		List<Ticket> tickets = List.of(new Ticket(users.get(1), competitions.get(0)),
+				new Ticket(users.get(2), competitions.get(0)), new Ticket(users.get(2), competitions.get(1)));
 		ticketRepository.saveAll(tickets);
 	}
 }

@@ -22,12 +22,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "matches")
+@Table(name = "competitions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = { "sport", "olympicNumber1", "olympicNumber2" })
 @ToString
-public class Match implements Serializable {
+public class Competition implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class Match implements Serializable {
 	@ManyToMany
 	private Set<Discipline> disciplines = new HashSet<>();
 
-	public Match(Sport sport, Date startDateTime, Stage stage, int olympicNumber1, int olympicNumber2,
+	public Competition(Sport sport, Date startDateTime, Stage stage, int olympicNumber1, int olympicNumber2,
 			BigDecimal ticketPrice, int seatsNumber) {
 		this.sport = sport;
 		this.startDateTime = startDateTime;
@@ -69,7 +69,7 @@ public class Match implements Serializable {
 		this.remainingSeats = seatsNumber;
 	}
 
-	public Match(Sport sport, Date startDateTime, Stage stage, int olympicNumber1, int olympicNumber2,
+	public Competition(Sport sport, Date startDateTime, Stage stage, int olympicNumber1, int olympicNumber2,
 			BigDecimal ticketPrice, int seatsNumber, Set<Discipline> disciplines) {
 		this(sport, startDateTime, stage, olympicNumber1, olympicNumber2, ticketPrice, seatsNumber);
 		this.disciplines = disciplines;
