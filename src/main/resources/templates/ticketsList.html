@@ -8,10 +8,11 @@
 
 	<h1 th:text="#{tickets.mainTitle}"></h1>
 	
-	<ul>
-		<li th:each="ticket : ${tickets}" th:text="|${ticket.competition.sport.name}, ${ticket.competition.startDateTime} -> ${ticket.competition.stage.name}|">
-		</li>
+	<ul th:if="${tickets != null && tickets.isEmpty == false}">
+		<li th:each="ticket : ${tickets}" th:text="|${ticket.competition.sport.name}, ${ticket.competition.startDateTime} -> ${ticket.competition.stage.name}|"></li>
 	</ul>
+	
+	<p th:unless="${tickets != null && tickets.isEmpty == false}" th:text="#{tickets.noTickets}"></p>
 	
 </body>
 </html>
