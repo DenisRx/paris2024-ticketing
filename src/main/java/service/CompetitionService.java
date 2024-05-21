@@ -9,5 +9,7 @@ import domain.Competition;
 public interface CompetitionService {
 	List<Competition> getCompetitions();
 
+	List<Competition> getCompetitionsBySportId(long sportId);
+
 	Competition createCompetition(long sportId, CompetitionCreationFormData formData);
 }

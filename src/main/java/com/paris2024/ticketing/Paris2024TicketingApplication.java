@@ -10,6 +10,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import service.CompetitionService;
 import service.CompetitionServiceImpl;
+import service.DisciplineService;
+import service.DisciplineServiceImpl;
+import service.SportService;
+import service.SportServiceImpl;
+import service.StageService;
+import service.StageServiceImpl;
+import service.TicketService;
+import service.TicketServiceImpl;
 
 @SpringBootApplication
 @EnableJpaRepositories("repository")
@@ -28,6 +36,26 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 	@Bean
 	CompetitionService competitionService() {
 		return new CompetitionServiceImpl();
+	}
+
+	@Bean
+	SportService sportService() {
+		return new SportServiceImpl();
+	}
+
+	@Bean
+	TicketService ticketService() {
+		return new TicketServiceImpl();
+	}
+
+	@Bean
+	StageService stageService() {
+		return new StageServiceImpl();
+	}
+
+	@Bean
+	DisciplineService disciplineService() {
+		return new DisciplineServiceImpl();
 	}
 
 }

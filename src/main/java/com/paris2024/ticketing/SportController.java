@@ -17,53 +17,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import domain.Competition;
 import domain.Sport;
 import domain.Ticket;
-import repository.CompetitionRepository;
-import repository.DisciplineRepository;
-import repository.SportRepository;
-import repository.StageRepository;
-import repository.TicketRepository;
 import service.CompetitionService;
+import service.DisciplineService;
+import service.SportService;
+import service.StageService;
+import service.TicketService;
 
 @Controller
 @RequestMapping("/sports")
 public class SportController {
 
 	@Autowired
-	private SportRepository sportRepository;
-
-	@Autowired
-	private CompetitionRepository competitionRepository;
-
-	@Autowired
-	private TicketRepository ticketRepository;
-
-	@Autowired
-	private StageRepository stageRepository;
-
-	@Autowired
-	private DisciplineRepository disciplineRepository;
+	private SportService sportService;
 
 	@Autowired
 	private CompetitionService competitionService;
 
+	@Autowired
+	private DisciplineService disciplineService;
+
+	@Autowired
+	private TicketService ticketService;
+
+	@Autowired
+	private StageService stageService;
+
 	@GetMapping
 	public String showSports(Model model) {
-		model.addAttribute("sports", sportRepository.findAll());
+		model.addAttribute("sports", sportService.getSports());
 
 		return "sportsList";
 	}
 
 	@GetMapping("/{id}")
 	public String showSport(@PathVariable long id, Model model) {
-		Optional<Sport> sport = sportRepository.findById(id);
+		Optional<Sport> sport = sportService.getSportById(id);
 
 		if (!sport.isPresent()) {
 			// TODO: replace by 404 page
 			return "redirect:/sports";
 		}
 
-		List<Competition> competitions = competitionRepository.findAllBySportId((long) id);
-		List<Ticket> tickets = ticketRepository.findAllByUserId((long) 3);
+		List<Competition> competitions = competitionService.getCompetitionsBySportId((long) id);
+		// TODO: replace 3 by current user id
+		List<Ticket> tickets = ticketService.getTicketsByUserId((long) 3);
 		Map<Long, Long> competitionTicketCounts = new HashMap<>();
 
 		for (Competition competition : competitions) {
@@ -80,8 +77,8 @@ public class SportController {
 
 	@GetMapping("/{id}/newCompetition")
 	public String showCompetitionForm(@PathVariable long id, Model model) {
-		model.addAttribute("stageList", stageRepository.findAll());
-		model.addAttribute("disciplineList", disciplineRepository.findAll());
+		model.addAttribute("stageList", stageService.getStages());
+		model.addAttribute("disciplineList", disciplineService.getDisciplines());
 		model.addAttribute("formData", new CompetitionCreationFormData());
 
 		return "competitionForm";

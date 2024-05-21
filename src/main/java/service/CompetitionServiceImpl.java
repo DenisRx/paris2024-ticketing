@@ -42,6 +42,11 @@ public class CompetitionServiceImpl implements CompetitionService {
 	}
 
 	@Override
+	public List<Competition> getCompetitionsBySportId(long sportId) {
+		return competitionRepository.findAllBySportId(sportId);
+	}
+
+	@Override
 	public Competition createCompetition(long sportId, CompetitionCreationFormData formData) {
 		Optional<Sport> sport = sportRepository.findById(sportId);
 		if (!sport.isPresent()) {

@@ -6,18 +6,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import repository.TicketRepository;
+import service.TicketService;
 
 @Controller
 @RequestMapping("/tickets")
 public class TicketController {
 
 	@Autowired
-	private TicketRepository ticketRepository;
+	private TicketService ticketService;
 
 	@GetMapping
 	public String showSports(Model model) {
-		model.addAttribute("tickets", ticketRepository.findAllByUserId((long) 3));
+		model.addAttribute("tickets", ticketService.getTicketsByUserId((long) 3));
 
 		return "ticketsList";
 	}
