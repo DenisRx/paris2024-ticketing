@@ -37,6 +37,10 @@
 					<td>
 						<th:block th:if="${competitionTicketCounts.get(competition.id) == 1}" th:text="|${competitionTicketCounts.get(competition.id)} #{sportDetails.table.ticketBoughtLabel}|"></th:block>
 						<th:block th:if="${competitionTicketCounts.get(competition.id) > 1}" th:text="|${competitionTicketCounts.get(competition.id)} #{sportDetails.table.ticketsBoughtLabel}|"></th:block>
+						<br/>
+						<a th:href="|/competitions/${competition.id}/purchase|">
+							<button th:text="#{sportDetails.table.purchaseTicketsButton}"></button>
+						</a>
 					</td>
 				</tr>
 			</tbody>
@@ -49,5 +53,8 @@
 	<a th:href="|${sport.id}/newCompetition|">
 		<button th:text="#{sportDetails.createCompetitionButton}"></button>
 	</a>
+
+	<p th:if="${purchasedTicketsCount}" th:text="|${purchasedTicketsCount} #{sportDetails.purchasedTicketsLabels}|"></p>
+	
 </body>
 </html>

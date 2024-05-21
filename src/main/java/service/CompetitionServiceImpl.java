@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -35,10 +34,12 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public List<Competition> getCompetitions() {
-		List<Competition> competitions = new ArrayList<>();
-		competitionRepository.findAll().forEach(competitions::add);
+		return (List<Competition>) competitionRepository.findAll();
+	}
 
-		return competitions;
+	@Override
+	public Optional<Competition> getCompetitionById(long id) {
+		return competitionRepository.findById(id);
 	}
 
 	@Override

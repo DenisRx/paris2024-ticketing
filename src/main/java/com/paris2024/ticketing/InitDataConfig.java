@@ -75,7 +75,7 @@ public class InitDataConfig implements CommandLineRunner {
 		date1.set(Calendar.MONTH, 7);
 		date1.set(Calendar.DAY_OF_MONTH, 25);
 		date1.set(Calendar.HOUR, 14);
-		Calendar date2 = date1;
+		Calendar date2 = (Calendar) date1.clone();
 		date2.set(Calendar.DAY_OF_MONTH, 26);
 		date2.set(Calendar.HOUR, 16);
 		List<Competition> competitions = List.of(

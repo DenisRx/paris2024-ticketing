@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ public class DisciplineServiceImpl implements DisciplineService {
 
 	@Override
 	public List<Discipline> getDisciplines() {
-		List<Discipline> disciplines = new ArrayList<>();
-		disciplineRepository.findAll().forEach(disciplines::add);
-
-		return disciplines;
+		return (List<Discipline>) disciplineRepository.findAll();
 	}
 }

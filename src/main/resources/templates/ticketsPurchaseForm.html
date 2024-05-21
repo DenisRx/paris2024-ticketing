@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{ticketsPurchase.title}"></title>
+</head>
+<body>
+
+	<h1 th:text="|${competition.sport.name} - #{ticketsPurchase.title}|"></h1>
+	
+	<h3 th:text="#{ticketsPurchase.competitionInformation.header}"></h3>
+	
+	<p th:text="|#{ticketsPurchase.competitionInformation.date}: ${competition.startDateTime}|"></p>
+	<p th:text="|#{ticketsPurchase.competitionInformation.stage}: ${competition.stage.name}|"></p>
+	<p th:text="|#{ticketsPurchase.competitionInformation.remainingPlace}: ${competition.remainingSeats}|"></p>
+	<p th:text="|#{ticketsPurchase.competitionInformation.ticketPrice}: ${competition.ticketPrice}|"></p>
+	
+	<p th:text="|#{ticketsPurchase.purchasedTicketsLabel.part1} ${purchasedTicketsCount} #{ticketsPurchase.purchasedTicketsLabel.part2}|"></p>
+	
+	<form th:action="@{purchase}" th:object="${formData}" method="post">
+		<label for="ticketCount" th:text="|#{ticketsPurchase.form.ticketCountLabel}:|"></label>
+		<input type="number" id="ticketCount" min="1" max="20" step="1" th:field="*{ticketsCount}" />
+		
+		<br/>
+		
+		<button type="submit" th:text="#{ticketsPurchase.form.submitButton}"></button>
+	</form>
+</body>
+</html>

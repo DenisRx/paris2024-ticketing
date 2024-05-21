@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ public class StageServiceImpl implements StageService {
 
 	@Override
 	public List<Stage> getStages() {
-		List<Stage> stages = new ArrayList<>();
-		stageRepository.findAll().forEach(stages::add);
-
-		return stages;
+		return (List<Stage>) stageRepository.findAll();
 	}
 }

@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +15,7 @@ public class SportServiceImpl implements SportService {
 
 	@Override
 	public List<Sport> getSports() {
-		List<Sport> sports = new ArrayList<>();
-		sportRepository.findAll().forEach(sports::add);
-
-		return sports;
+		return (List<Sport>) sportRepository.findAll();
 	}
 
 	@Override
