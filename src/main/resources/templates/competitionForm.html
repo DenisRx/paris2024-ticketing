@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{newCompetition.title}"></title>
+</head>
+<body>
+
+	<h1 th:text="#{newCompetition.title}"></h1>
+	
+	<form th:action="@{newCompetition}" th:object="${formData}" method="post">
+		<label for="startDateTime" th:text="|#{newCompetition.startDateTimeLabel}:|"></label>
+		<input type="datetime-local" id="startDateTime" th:field="*{startDateTime}" />
+		
+		<br/>
+		
+		<label for="stageName" th:text="|#{newCompetition.stageNameLabel}:|"></label>
+		<select name="stageName" id="stageName" th:field="*{stageId}">
+			<option th:each="stageItem : ${stageList}" th:value="${stageItem.id}" th:text="${stageItem.name}"></option>
+		</select>
+		
+		<br/>
+		
+		<label for="discipline1" th:text="|#{newCompetition.discipline1Label}:|"></label>
+		<select name="discipline1" id="discipline1" th:field="*{disciplineId1}">
+			<option th:value="null" th:text="---"></option>
+			<option th:each="discipline : ${disciplineList}" th:value="${discipline.id}" th:text="${discipline.name}"></option>
+		</select>
+		
+		<br/>
+		
+		<label for="discipline2" th:text="|#{newCompetition.discipline2Label}:|"></label>
+		<select name="discipline2" id="discipline2" th:field="*{disciplineId2}">
+			<option th:value="null" th:text="---"></option>
+			<option th:each="discipline : ${disciplineList}" th:value="${discipline.id}" th:text="${discipline.name}"></option>
+		</select>
+		
+		<br/>
+		
+		<label for="olympicNumber1" th:text="|#{newCompetition.olympicNumber1Label}:|"></label>
+		<input type="number" id="olympicNumber1" min="10000" max="99999" step="1" th:field="*{olympicNumber1}" />
+		
+		<br/>
+		
+		<label for="olympicNumber2" th:text="|#{newCompetition.olympicNumber2Label}:|"></label>
+		<input type="number" id="olympicNumber2" min="9000" max="100999" step="1" th:field="*{olympicNumber2}" />
+		
+		<br/>
+		
+		<label for="ticketPrice" th:text="|#{newCompetition.ticketPriceLabel}:|"></label>
+		<input type="number" id="ticketPrice" min="0.01" max="149.99" step="0.01" th:field="*{ticketPrice}" />
+		
+		<br/>
+		
+		<label for="seatNumber" th:text="|#{newCompetition.seatNumberLabel}:|"></label>
+		<input type="number" id="seatNumber" min="1" max="49" step="1" th:field="*{seatNumber}" />
+		
+		<br/>
+
+		<button type="submit" th:text="#{newCompetition.submitButton}"></button>
+	</form>
+
+</body>
+</html>

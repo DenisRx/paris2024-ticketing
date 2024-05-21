@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/css/style.css}" />
-<title th:text="${sportName}"></title>
+<title th:text="${sport.name}"></title>
 </head>
 <body>
 
-	<h1 th:text="${sportName}"></h1>
+	<h1 th:text="${sport.name}"></h1>
 
 	<div th:if="${competitions != null && competitions.isEmpty == false}">	
 		<h2 th:text="#{sportDetails.secondaryTitle}"></h2>
@@ -23,7 +23,7 @@
 					<th th:text="#{sportDetails.table.ticketsBought}"></th>
 				</tr>
 			</thead>
-			<tbody th:each="competition : ${competitions}">
+			<tbody th:each="competition, iter : ${competitions}">
 				<tr>
 					<td th:text="${competition.startDateTime}"></td>
 					<td th:text="${competition.stage.name}"></td>
@@ -34,7 +34,10 @@
 					</td>
 					<td th:text="${competition.remainingSeats}"></td>
 					<td th:text="${competition.ticketPrice}"></td>
-					<td th:text="|1 ticket bought|"></td> <!-- TODO: replace by real number of tickets bought -->
+					<td>
+						<th:block th:if="${competitionTicketCounts.get(competition.id) == 1}" th:text="|${competitionTicketCounts.get(competition.id)} #{sportDetails.table.ticketBoughtLabel}|"></th:block>
+						<th:block th:if="${competitionTicketCounts.get(competition.id) > 1}" th:text="|${competitionTicketCounts.get(competition.id)} #{sportDetails.table.ticketsBoughtLabel}|"></th:block>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -42,5 +45,9 @@
 	<div th:unless="${competitions != null && competitions.isEmpty == false}">
 		<p th:text="#{sportDetails.noCompetitions}"></p>
 	</div>
+
+	<a th:href="|${sport.id}/newCompetition|">
+		<button th:text="#{sportDetails.createCompetitionButton}"></button>
+	</a>
 </body>
 </html>

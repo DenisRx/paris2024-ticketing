@@ -65,7 +65,7 @@ public class InitDataConfig implements CommandLineRunner {
 		disciplineNames.forEach(s -> disciplines.add(new Discipline(s, sports.get(0))));
 		disciplineRepository.saveAll(disciplines);
 
-		List<String> stageNames = List.of("Invalides");
+		List<String> stageNames = List.of("Invalides", "Stade de France");
 		List<Stage> stages = new ArrayList<>();
 		stageNames.forEach(s -> stages.add(new Stage(s)));
 		stageRepository.saveAll(stages);
