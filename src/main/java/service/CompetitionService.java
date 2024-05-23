@@ -3,9 +3,8 @@ package service;
 import java.util.List;
 import java.util.Optional;
 
-import com.paris2024.ticketing.CompetitionCreationFormData;
-
 import domain.Competition;
+import domain.CompetitionCreationFormData;
 
 public interface CompetitionService {
 	List<Competition> getCompetitions();
@@ -15,4 +14,6 @@ public interface CompetitionService {
 	List<Competition> getCompetitionsBySportId(long sportId);
 
 	Competition createCompetition(long sportId, CompetitionCreationFormData formData);
+
+	boolean olympicNumber1Exists(int olympicNumber);
 }

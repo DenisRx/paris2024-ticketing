@@ -1,8 +1,11 @@
 package com.paris2024.ticketing;
 
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -70,18 +73,15 @@ public class InitDataConfig implements CommandLineRunner {
 		stageNames.forEach(s -> stages.add(new Stage(s)));
 		stageRepository.saveAll(stages);
 
-		Calendar date1 = Calendar.getInstance();
-		date1.set(Calendar.YEAR, 2024);
-		date1.set(Calendar.MONTH, 7);
-		date1.set(Calendar.DAY_OF_MONTH, 25);
-		date1.set(Calendar.HOUR, 14);
-		Calendar date2 = (Calendar) date1.clone();
-		date2.set(Calendar.DAY_OF_MONTH, 26);
-		date2.set(Calendar.HOUR, 16);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm").withZone(ZoneOffset.UTC);
+		ZonedDateTime zonedDate1 = ZonedDateTime.parse("2024-07-26T12:00", formatter);
+		ZonedDateTime zonedDate2 = ZonedDateTime.parse("2024-07-26T14:00", formatter);
+		Date date1 = Date.from(zonedDate1.toInstant());
+		Date date2 = Date.from(zonedDate2.toInstant());
 		List<Competition> competitions = List.of(
-				new Competition(sports.get(0), date1.getTime(), stages.get(0), 12345, 22345, new BigDecimal(75.00), 500,
+				new Competition(sports.get(0), date1, stages.get(0), 12345, 22345, new BigDecimal(75.00), 500,
 						new HashSet<Discipline>(List.of(disciplines.get(0)))),
-				new Competition(sports.get(0), date2.getTime(), stages.get(0), 12346, 22346, new BigDecimal(80.00), 500,
+				new Competition(sports.get(0), date2, stages.get(0), 12346, 22346, new BigDecimal(80.00), 500,
 						new HashSet<Discipline>(List.of(disciplines.get(1)))));
 		competitionRepository.saveAll(competitions);
 

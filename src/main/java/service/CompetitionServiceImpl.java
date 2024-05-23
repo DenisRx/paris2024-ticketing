@@ -7,9 +7,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.paris2024.ticketing.CompetitionCreationFormData;
-
 import domain.Competition;
+import domain.CompetitionCreationFormData;
 import domain.Discipline;
 import domain.Sport;
 import domain.Stage;
@@ -60,13 +59,18 @@ public class CompetitionServiceImpl implements CompetitionService {
 		}
 
 		Set<Discipline> disciplines = new HashSet<>();
-		Optional<Discipline> discipline1 = disciplineRepository.findById(formData.getDisciplineId1());
-		Optional<Discipline> discipline2 = disciplineRepository.findById(formData.getDisciplineId2());
-		if (discipline1.isPresent()) {
-			disciplines.add(discipline1.get());
+		if (formData.getDisciplineId1() != null) {
+			Optional<Discipline> discipline1 = disciplineRepository.findById(formData.getDisciplineId1());
+			if (discipline1.isPresent()) {
+				disciplines.add(discipline1.get());
+			}
 		}
-		if (discipline2.isPresent()) {
-			disciplines.add(discipline2.get());
+		if (formData.getDisciplineId2() != null) {
+			Optional<Discipline> discipline2 = disciplineRepository.findById(formData.getDisciplineId2());
+
+			if (discipline2.isPresent()) {
+				disciplines.add(discipline2.get());
+			}
 		}
 
 		Competition newCompetition = new Competition(sport.get(), formData.getStartDateTime(), stage.get(),
@@ -74,6 +78,11 @@ public class CompetitionServiceImpl implements CompetitionService {
 				formData.getSeatNumber(), disciplines);
 
 		return competitionRepository.save(newCompetition);
+	}
+
+	@Override
+	public boolean olympicNumber1Exists(int olympicNumber) {
+		return competitionRepository.olympicNumber1Exists(olympicNumber);
 	}
 
 }

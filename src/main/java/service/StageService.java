@@ -6,4 +6,6 @@ import domain.Stage;
 
 public interface StageService {
 	List<Stage> getStages();
+
+	List<Stage> getStagesOrderByName();
 }

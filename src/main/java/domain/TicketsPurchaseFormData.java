@@ -1,4 +1,4 @@
-package com.paris2024.ticketing;
+package domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

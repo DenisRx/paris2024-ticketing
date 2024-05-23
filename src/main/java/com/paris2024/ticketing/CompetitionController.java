@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domain.Competition;
 import domain.Ticket;
+import domain.TicketsPurchaseFormData;
 import service.CompetitionService;
 import service.TicketService;
 

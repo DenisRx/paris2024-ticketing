@@ -18,6 +18,7 @@ import service.StageService;
 import service.StageServiceImpl;
 import service.TicketService;
 import service.TicketServiceImpl;
+import validator.CompetitionCreationValidation;
 
 @SpringBootApplication
 @EnableJpaRepositories("repository")
@@ -28,10 +29,18 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 		SpringApplication.run(Paris2024TicketingApplication.class, args);
 	}
 
+	/*
+	 * Routing
+	 */
+
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "sports");
 	}
+
+	/*
+	 * Services
+	 */
 
 	@Bean
 	CompetitionService competitionService() {
@@ -56,6 +65,15 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 	@Bean
 	DisciplineService disciplineService() {
 		return new DisciplineServiceImpl();
+	}
+
+	/*
+	 * Validation
+	 */
+
+	@Bean
+	CompetitionCreationValidation competitionCreationValidation() {
+		return new CompetitionCreationValidation();
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import domain.Competition;
+import domain.CompetitionCreationFormData;
 import domain.Sport;
 import domain.Ticket;
+import jakarta.validation.Valid;
 import service.CompetitionService;
 import service.DisciplineService;
 import service.SportService;
 import service.StageService;
 import service.TicketService;
+import validator.CompetitionCreationValidation;
 
 @Controller
 @RequestMapping("/sports")
@@ -41,6 +45,9 @@ public class SportController {
 
 	@Autowired
 	private StageService stageService;
+
+	@Autowired
+	private CompetitionCreationValidation competitionCreationValidation;
 
 	@GetMapping
 	public String showSports(Model model) {
@@ -77,7 +84,7 @@ public class SportController {
 
 	@GetMapping("/{id}/newCompetition")
 	public String showCompetitionForm(@PathVariable long id, Model model) {
-		model.addAttribute("stageList", stageService.getStages());
+		model.addAttribute("stageList", stageService.getStagesOrderByName());
 		model.addAttribute("disciplineList", disciplineService.getDisciplines());
 		model.addAttribute("formData", new CompetitionCreationFormData());
 
@@ -86,9 +93,25 @@ public class SportController {
 
 	@PostMapping("/{id}/newCompetition")
 	public String onCompetitionSubmit(@PathVariable Long id,
-			@ModelAttribute("formData") CompetitionCreationFormData formData, Model model) {
+			@Valid @ModelAttribute("formData") CompetitionCreationFormData formData, BindingResult result,
+			Model model) {
 
-		competitionService.createCompetition(id, formData);
+		competitionCreationValidation.validate(formData, result);
+
+		if (result.hasErrors()) {
+			model.addAttribute("stageList", stageService.getStagesOrderByName());
+			model.addAttribute("disciplineList", disciplineService.getDisciplines());
+
+			return "competitionForm";
+		}
+
+		if (competitionService.createCompetition(id, formData) == null) {
+			result.reject("competition.creation.failed", "{newCompetiton.creation.failed}");
+			model.addAttribute("stageList", stageService.getStagesOrderByName());
+			model.addAttribute("disciplineList", disciplineService.getDisciplines());
+
+			return "competitionForm";
+		}
 
 		return "redirect:/sports/" + id;
 	}

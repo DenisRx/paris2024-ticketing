@@ -16,4 +16,9 @@ public class StageServiceImpl implements StageService {
 	public List<Stage> getStages() {
 		return (List<Stage>) stageRepository.findAll();
 	}
+
+	@Override
+	public List<Stage> getStagesOrderByName() {
+		return stageRepository.findAllByOrderByNameAsc();
+	}
 }
