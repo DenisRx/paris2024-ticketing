@@ -57,15 +57,15 @@ public class SportController {
 	}
 
 	@GetMapping("/{id}")
-	public String showSport(@PathVariable long id, Model model) {
-		Optional<Sport> sport = sportService.getSportById(id);
+	public String showSport(@PathVariable("id") long sportId, Model model) {
+		Optional<Sport> sport = sportService.getSportById(sportId);
 
 		if (!sport.isPresent()) {
 			// TODO: replace by 404 page
 			return "redirect:/sports";
 		}
 
-		List<Competition> competitions = competitionService.getCompetitionsBySportId((long) id);
+		List<Competition> competitions = competitionService.getCompetitionsBySportId((long) sportId);
 		// TODO: replace 3 by current user id
 		List<Ticket> tickets = ticketService.getTicketsByUserId((long) 3);
 		Map<Long, Long> competitionTicketCounts = new HashMap<>();
@@ -83,7 +83,7 @@ public class SportController {
 	}
 
 	@GetMapping("/{id}/newCompetition")
-	public String showCompetitionForm(@PathVariable long id, Model model) {
+	public String showCompetitionForm(@PathVariable("id") long sportId, Model model) {
 		model.addAttribute("stageList", stageService.getStagesOrderByName());
 		model.addAttribute("disciplineList", disciplineService.getDisciplines());
 		model.addAttribute("formData", new CompetitionCreationFormData());
@@ -92,7 +92,7 @@ public class SportController {
 	}
 
 	@PostMapping("/{id}/newCompetition")
-	public String onCompetitionSubmit(@PathVariable Long id,
+	public String onCompetitionSubmit(@PathVariable("id") long sportId,
 			@Valid @ModelAttribute("formData") CompetitionCreationFormData formData, BindingResult result,
 			Model model) {
 
@@ -105,7 +105,7 @@ public class SportController {
 			return "competitionForm";
 		}
 
-		if (competitionService.createCompetition(id, formData) == null) {
+		if (competitionService.createCompetition(sportId, formData) == null) {
 			result.reject("newCompetiton.creation.failed");
 			model.addAttribute("stageList", stageService.getStagesOrderByName());
 			model.addAttribute("disciplineList", disciplineService.getDisciplines());
@@ -113,6 +113,6 @@ public class SportController {
 			return "competitionForm";
 		}
 
-		return "redirect:/sports/" + id;
+		return "redirect:/sports/" + sportId;
 	}
 }
