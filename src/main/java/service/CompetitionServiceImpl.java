@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import domain.Competition;
 import domain.CompetitionCreationFormData;
+import domain.CompetitionPlaces;
 import domain.Discipline;
 import domain.Sport;
 import domain.Stage;
+import exception.CompetitionNotFoundException;
 import repository.CompetitionRepository;
 import repository.DisciplineRepository;
 import repository.SportRepository;
@@ -83,6 +85,17 @@ public class CompetitionServiceImpl implements CompetitionService {
 	@Override
 	public boolean olympicNumber1Exists(int olympicNumber) {
 		return competitionRepository.olympicNumber1Exists(olympicNumber);
+	}
+
+	@Override
+	public CompetitionPlaces getAvailablePlaces(long competitionId) {
+		Optional<Competition> competition = competitionRepository.findById(competitionId);
+		if (competition.isEmpty()) {
+			throw new CompetitionNotFoundException(competitionId);
+		}
+
+		Competition competitionValue = competition.get();
+		return new CompetitionPlaces(competitionValue.getId(), competitionValue.getRemainingSeats());
 	}
 
 }

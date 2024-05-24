@@ -5,9 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import service.CompetitionRestService;
+import service.CompetitionRestServiceImpl;
 import service.CompetitionService;
 import service.CompetitionServiceImpl;
 import service.DisciplineService;
@@ -68,6 +71,11 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 		return new DisciplineServiceImpl();
 	}
 
+	@Bean
+	CompetitionRestService competitionRestService() {
+		return new CompetitionRestServiceImpl();
+	}
+
 	/*
 	 * Validation
 	 */
@@ -80,6 +88,15 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 	@Bean
 	TicketsPurchaseValidation ticketsPurchaseValidation() {
 		return new TicketsPurchaseValidation();
+	}
+
+	/*
+	 * Web client
+	 */
+
+	@Bean
+	WebClient webClient() {
+		return WebClient.builder().baseUrl("http://localhost:8080").build();
 	}
 
 }

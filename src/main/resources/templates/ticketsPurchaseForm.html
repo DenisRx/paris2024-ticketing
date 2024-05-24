@@ -13,7 +13,7 @@
 	
 	<p th:text="|#{ticketsPurchase.competitionInformation.date}: ${competition.startDateTime}|"></p>
 	<p th:text="|#{ticketsPurchase.competitionInformation.stage}: ${competition.stage.name}|"></p>
-	<p th:text="|#{ticketsPurchase.competitionInformation.remainingPlace}: ${competition.remainingSeats}|"></p>
+	<p th:text="|#{ticketsPurchase.competitionInformation.remainingPlace}: ${availablePlaces}|"></p>
 	<p th:text="|#{ticketsPurchase.competitionInformation.ticketPrice}: ${competition.ticketPrice}|"></p>
 	
 	<p th:text="|#{ticketsPurchase.purchasedTickets.label.part1} ${purchasedTicketsCount} #{ticketsPurchase.purchasedTickets.label.part2}|"></p>

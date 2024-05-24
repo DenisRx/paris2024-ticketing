@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domain.Competition;
+import domain.CompetitionPlaces;
 import domain.Ticket;
 import domain.TicketsPurchaseFormData;
+import service.CompetitionRestService;
 import service.CompetitionService;
 import service.TicketService;
 import validator.TicketsPurchaseValidation;
@@ -27,6 +29,9 @@ public class CompetitionController {
 
 	@Autowired
 	private CompetitionService competitionService;
+
+	@Autowired
+	private CompetitionRestService competitionRestService;
 
 	@Autowired
 	private TicketService ticketService;
@@ -45,6 +50,8 @@ public class CompetitionController {
 		// TODO: Replace 3 by current user id
 		List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserId(competition.get().getId(), 3);
 
+		CompetitionPlaces competitionPlaces = competitionRestService.getCompetitionAvailablePlaces(competitionId);
+		model.addAttribute("availablePlaces", competitionPlaces.getAvailablePlaces());
 		model.addAttribute("competition", competition.get());
 		model.addAttribute("purchasedTicketsCount", purchasedTickets.size());
 		model.addAttribute("formData", new TicketsPurchaseFormData());
