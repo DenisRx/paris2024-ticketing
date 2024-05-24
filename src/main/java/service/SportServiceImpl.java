@@ -19,7 +19,7 @@ public class SportServiceImpl implements SportService {
 	}
 
 	@Override
-	public Optional<Sport> getSportById(long id) {
-		return sportRepository.findById(id);
+	public Optional<Sport> getSportById(long sportId) {
+		return sportRepository.findById(sportId);
 	}
 }

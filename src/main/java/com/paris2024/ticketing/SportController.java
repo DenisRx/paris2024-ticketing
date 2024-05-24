@@ -22,6 +22,7 @@ import domain.Ticket;
 import jakarta.validation.Valid;
 import service.CompetitionService;
 import service.DisciplineService;
+import service.SportRestService;
 import service.SportService;
 import service.StageService;
 import service.TicketService;
@@ -47,6 +48,9 @@ public class SportController {
 	private StageService stageService;
 
 	@Autowired
+	private SportRestService sportRestService;
+
+	@Autowired
 	private CompetitionCreationValidation competitionCreationValidation;
 
 	@GetMapping
@@ -60,12 +64,12 @@ public class SportController {
 	public String showSport(@PathVariable("id") long sportId, Model model) {
 		Optional<Sport> sport = sportService.getSportById(sportId);
 
-		if (!sport.isPresent()) {
+		if (sport.isEmpty()) {
 			// TODO: replace by 404 page
 			return "redirect:/sports";
 		}
 
-		List<Competition> competitions = competitionService.getCompetitionsBySportId((long) sportId);
+		List<Competition> competitions = sportRestService.getSportCompetitions(sportId);
 		// TODO: replace 3 by current user id
 		List<Ticket> tickets = ticketService.getTicketsByUserId((long) 3);
 		Map<Long, Long> competitionTicketCounts = new HashMap<>();

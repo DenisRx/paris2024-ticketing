@@ -8,5 +8,5 @@ import domain.Sport;
 public interface SportService {
 	List<Sport> getSports();
 
-	Optional<Sport> getSportById(long id);
+	Optional<Sport> getSportById(long sportId);
 }

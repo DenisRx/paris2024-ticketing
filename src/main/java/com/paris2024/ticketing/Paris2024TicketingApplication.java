@@ -15,6 +15,8 @@ import service.CompetitionService;
 import service.CompetitionServiceImpl;
 import service.DisciplineService;
 import service.DisciplineServiceImpl;
+import service.SportRestService;
+import service.SportRestServiceImpl;
 import service.SportService;
 import service.SportServiceImpl;
 import service.StageService;
@@ -74,6 +76,11 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 	@Bean
 	CompetitionRestService competitionRestService() {
 		return new CompetitionRestServiceImpl();
+	}
+
+	@Bean
+	SportRestService sportRestService() {
+		return new SportRestServiceImpl();
 	}
 
 	/*
