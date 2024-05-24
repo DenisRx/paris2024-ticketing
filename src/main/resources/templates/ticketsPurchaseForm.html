@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/style.css}" />
 <title th:text="#{ticketsPurchase.title}"></title>
 </head>
 <body>
@@ -15,11 +16,14 @@
 	<p th:text="|#{ticketsPurchase.competitionInformation.remainingPlace}: ${competition.remainingSeats}|"></p>
 	<p th:text="|#{ticketsPurchase.competitionInformation.ticketPrice}: ${competition.ticketPrice}|"></p>
 	
-	<p th:text="|#{ticketsPurchase.purchasedTicketsLabel.part1} ${purchasedTicketsCount} #{ticketsPurchase.purchasedTicketsLabel.part2}|"></p>
+	<p th:text="|#{ticketsPurchase.purchasedTickets.label.part1} ${purchasedTicketsCount} #{ticketsPurchase.purchasedTickets.label.part2}|"></p>
 	
 	<form th:action="@{purchase}" th:object="${formData}" method="post">
-		<label for="ticketCount" th:text="|#{ticketsPurchase.form.ticketCountLabel}:|"></label>
-		<input type="number" id="ticketCount" min="1" max="20" step="1" th:field="*{ticketsCount}" />
+		<div th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" th:errorclass="error"></div>
+	
+		<label for="ticketsCount" th:text="|#{ticketsPurchase.form.ticketsCount.label}:|"></label>
+		<input type="number" id="ticketsCount" min="1" max="20" step="1" th:field="*{ticketsCount}" />
+		<div th:if="${#fields.hasErrors('ticketsCount')}" th:errors="*{ticketsCount}" th:errorclass="error"></div>
 		
 		<br/>
 		

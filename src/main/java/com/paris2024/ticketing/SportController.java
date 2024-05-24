@@ -106,7 +106,7 @@ public class SportController {
 		}
 
 		if (competitionService.createCompetition(id, formData) == null) {
-			result.reject("competition.creation.failed", "{newCompetiton.creation.failed}");
+			result.reject("newCompetiton.creation.failed");
 			model.addAttribute("stageList", stageService.getStagesOrderByName());
 			model.addAttribute("disciplineList", disciplineService.getDisciplines());
 

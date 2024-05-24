@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import domain.Ticket;
 import domain.TicketsPurchaseFormData;
 import service.CompetitionService;
 import service.TicketService;
+import validator.TicketsPurchaseValidation;
 
 @Controller
 @RequestMapping("competitions")
@@ -28,6 +30,9 @@ public class CompetitionController {
 
 	@Autowired
 	private TicketService ticketService;
+
+	@Autowired
+	private TicketsPurchaseValidation ticketsPurchaseValidation;
 
 	@GetMapping("{id}/purchase")
 	public String showCompetitionTicketsPurchaseForm(@PathVariable("id") long competitionId, Model model) {
@@ -49,7 +54,21 @@ public class CompetitionController {
 
 	@PostMapping("{id}/purchase")
 	public String onPurchaseSubmit(@PathVariable("id") long competitionId,
-			@ModelAttribute("formData") TicketsPurchaseFormData formData, RedirectAttributes redirectAttributes) {
+			@ModelAttribute("formData") TicketsPurchaseFormData formData, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) {
+
+		formData.setCompetitionId(competitionId);
+		ticketsPurchaseValidation.validate(formData, result);
+
+		if (result.hasErrors()) {
+			Optional<Competition> competition = competitionService.getCompetitionById(competitionId);
+			// TODO: Replace 3 by current user id
+			List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserId(competition.get().getId(), 3);
+			model.addAttribute("competition", competition.get());
+			model.addAttribute("purchasedTicketsCount", purchasedTickets.size());
+
+			return "ticketsPurchaseForm";
+		}
 
 		int ticketsCount = formData.getTicketsCount();
 		// TODO: Replace 3 by current user id

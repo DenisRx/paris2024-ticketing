@@ -19,6 +19,7 @@ import service.StageServiceImpl;
 import service.TicketService;
 import service.TicketServiceImpl;
 import validator.CompetitionCreationValidation;
+import validator.TicketsPurchaseValidation;
 
 @SpringBootApplication
 @EnableJpaRepositories("repository")
@@ -74,6 +75,11 @@ public class Paris2024TicketingApplication implements WebMvcConfigurer {
 	@Bean
 	CompetitionCreationValidation competitionCreationValidation() {
 		return new CompetitionCreationValidation();
+	}
+
+	@Bean
+	TicketsPurchaseValidation ticketsPurchaseValidation() {
+		return new TicketsPurchaseValidation();
 	}
 
 }

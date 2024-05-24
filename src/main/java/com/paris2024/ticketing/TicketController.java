@@ -16,7 +16,8 @@ public class TicketController {
 	private TicketService ticketService;
 
 	@GetMapping
-	public String showSports(Model model) {
+	public String showTickets(Model model) {
+		// TODO: replace 3 by current user id
 		model.addAttribute("tickets", ticketService.getTicketsByUserId((long) 3));
 
 		return "ticketsList";

@@ -10,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketsPurchaseFormData {
-	private int ticketsCount;
+	private long competitionId;
+	private Integer ticketsCount;
 }
