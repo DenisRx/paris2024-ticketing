@@ -2,6 +2,7 @@ package validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import jakarta.validation.ConstraintValidator;
@@ -21,7 +22,14 @@ public class CompetitionDateRangeValidator implements ConstraintValidator<Compet
 			Date startDate = dateFormat.parse("2024-07-26T08:00");
 			Date endDate = dateFormat.parse("2024-08-11T23:59");
 
-			return date != null && date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0;
+			if (date == null || date.compareTo(startDate) < 0 || date.compareTo(endDate) > 0) {
+				return false;
+			}
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+
+			return calendar.get(Calendar.HOUR_OF_DAY) >= 8;
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return false;
