@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{login.title}"></title>
+</head>
+<body onload="document.loginForm.email.focus();">
+
+	<h1 th:text="#{login.welcome.message}"></h1>
+	
+	<h2 th:text="#{login.authentication.request.message}"></h2>
+
+	<form th:action="@{/login}" method="post">
+		<table>
+			<tr>
+				<td>
+					<label for="email" th:text="|#{login.form.email.label}:|"></label>
+				</td>
+				<td>
+					<input type="text" id="email" name="email"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="password" th:text="|#{login.form.password.label}:|"></label>
+				</td>
+				<td>
+					<input type="password" id="password" name="password"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button type="submit" name="submit" th:text="#{login.form.submit.button}"></button>
+				</td>
+			</tr>
+		</table>
+		
+		<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+	</form>
+	
+	<div th:if="${error}" class="error" th:text="#{login.form.credentials.invalid}"></div>
+
+	<div th:if="${logout}" th:text="#{login.logout.message}"></div>
+
+</body>
+</html>

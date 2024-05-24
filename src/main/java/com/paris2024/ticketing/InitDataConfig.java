@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import domain.Competition;
@@ -47,6 +49,8 @@ public class InitDataConfig implements CommandLineRunner {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	private PasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -85,9 +89,10 @@ public class InitDataConfig implements CommandLineRunner {
 						new HashSet<Discipline>(List.of(disciplines.get(1)))));
 		competitionRepository.saveAll(competitions);
 
-		List<User> users = List.of(new User("admin@student.hogent.be", "password", "Admin", "ADMIN", Role.ADMIN),
-				new User("user1@student.hogent.be", "password", "User1", "USER", Role.USER),
-				new User("user2@student.hogent.be", "password", "User2", "USER", Role.USER));
+		List<User> users = List.of(
+				new User("admin@student.hogent.be", encoder.encode("password"), "Admin", "ADMIN", Role.ADMIN),
+				new User("user1@student.hogent.be", encoder.encode("password"), "User1", "USER", Role.USER),
+				new User("user2@student.hogent.be", encoder.encode("password"), "User2", "USER", Role.USER));
 		userRepository.saveAll(users);
 
 		List<Ticket> tickets = List.of(new Ticket(users.get(1), competitions.get(0)),
