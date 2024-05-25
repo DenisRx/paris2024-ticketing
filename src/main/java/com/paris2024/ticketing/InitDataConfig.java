@@ -80,12 +80,16 @@ public class InitDataConfig implements CommandLineRunner {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm").withZone(ZoneOffset.UTC);
 		ZonedDateTime zonedDate1 = ZonedDateTime.parse("2024-07-26T12:00", formatter);
 		ZonedDateTime zonedDate2 = ZonedDateTime.parse("2024-07-26T14:00", formatter);
+		ZonedDateTime zonedDate3 = ZonedDateTime.parse("2024-07-26T16:00", formatter);
 		Date date1 = Date.from(zonedDate1.toInstant());
 		Date date2 = Date.from(zonedDate2.toInstant());
+		Date date3 = Date.from(zonedDate3.toInstant());
 		List<Competition> competitions = List.of(
 				new Competition(sports.get(0), date1, stages.get(0), 12345, 22345, new BigDecimal(75.00), 500,
 						new HashSet<Discipline>(List.of(disciplines.get(0)))),
 				new Competition(sports.get(0), date2, stages.get(0), 12346, 22346, new BigDecimal(80.00), 500,
+						new HashSet<Discipline>(List.of(disciplines.get(1)))),
+				new Competition(sports.get(0), date3, stages.get(1), 12345, 22345, new BigDecimal(50.00), 10,
 						new HashSet<Discipline>(List.of(disciplines.get(1)))));
 		competitionRepository.saveAll(competitions);
 

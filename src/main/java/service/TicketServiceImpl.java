@@ -48,6 +48,17 @@ public class TicketServiceImpl implements TicketService {
 			tickets.add(new Ticket(user, competition.get()));
 		}
 
+		Competition competitionValue = competition.get();
+		int newRemainingSeatsCount = competitionValue.getRemainingSeats() - ticketsCount;
+		if (newRemainingSeatsCount < 0) {
+			return null;
+		}
+
+		competitionValue.setRemainingSeats(newRemainingSeatsCount);
+		if (competitionRepository.save(competitionValue) == null) {
+			return null;
+		}
+
 		return (List<Ticket>) ticketRepository.saveAll(tickets);
 	}
 }

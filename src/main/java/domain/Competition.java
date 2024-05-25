@@ -19,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -52,6 +53,7 @@ public class Competition implements Serializable {
 
 	private int seatsNumber;
 
+	@Setter
 	private int remainingSeats;
 
 	@ManyToMany

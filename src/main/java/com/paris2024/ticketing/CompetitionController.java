@@ -41,13 +41,15 @@ public class CompetitionController {
 	private TicketsPurchaseValidation ticketsPurchaseValidation;
 
 	@GetMapping("{id}/purchase")
-	public String showCompetitionTicketsPurchaseForm(@PathVariable("id") long competitionId, Model model, Principal principal) {
+	public String showCompetitionTicketsPurchaseForm(@PathVariable("id") long competitionId, Model model,
+			Principal principal) {
 		Optional<Competition> competition = competitionService.getCompetitionById(competitionId);
 		if (competition.isEmpty()) {
 			return "redirect:/sports";
 		}
 
-		List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(), principal.getName());
+		List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(),
+				principal.getName());
 
 		CompetitionPlaces competitionPlaces = competitionRestService.getCompetitionAvailablePlaces(competitionId);
 		model.addAttribute("availablePlaces", competitionPlaces.getAvailablePlaces());
@@ -70,7 +72,11 @@ public class CompetitionController {
 
 		if (result.hasErrors()) {
 			Optional<Competition> competition = competitionService.getCompetitionById(competitionId);
-			List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(), userEmail);
+			List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(),
+					userEmail);
+
+			CompetitionPlaces competitionPlaces = competitionRestService.getCompetitionAvailablePlaces(competitionId);
+			model.addAttribute("availablePlaces", competitionPlaces.getAvailablePlaces());
 			model.addAttribute("competition", competition.get());
 			model.addAttribute("purchasedTicketsCount", purchasedTickets.size());
 
@@ -80,6 +86,16 @@ public class CompetitionController {
 		int ticketsCount = formData.getTicketsCount();
 		if (ticketService.purchaseTickets(competitionId, userEmail, ticketsCount) == null) {
 			result.reject("ticketsPurchase.creation.failed");
+
+			Optional<Competition> competition = competitionService.getCompetitionById(competitionId);
+			List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(),
+					userEmail);
+
+			CompetitionPlaces competitionPlaces = competitionRestService.getCompetitionAvailablePlaces(competitionId);
+			model.addAttribute("availablePlaces", competitionPlaces.getAvailablePlaces());
+			model.addAttribute("competition", competition.get());
+			model.addAttribute("purchasedTicketsCount", purchasedTickets.size());
+
 			return "ticketsPurchaseForm";
 		}
 
