@@ -6,6 +6,6 @@ import domain.Competition;
 
 public interface SportRestService {
 
-	List<Competition> getSportCompetitions(long sportId);
+	List<Competition> getSportCompetitionsOrderByDateTime(long sportId);
 
 }

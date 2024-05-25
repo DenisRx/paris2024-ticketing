@@ -1,5 +1,7 @@
 package service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,19 @@ public class SportRestServiceImpl implements SportRestService {
 	private WebClient webClient;
 
 	@Override
-	public List<Competition> getSportCompetitions(long sportId) {
-		return webClient.get().uri("/sports/" + sportId + "/competitions").retrieve()
+	public List<Competition> getSportCompetitionsOrderByDateTime(long sportId) {
+		List<Competition> competitions = webClient.get().uri("/sports/" + sportId + "/competitions").retrieve()
 				.bodyToMono(new ParameterizedTypeReference<List<Competition>>() {
 				}).block();
+
+		Collections.sort(competitions, new Comparator<Competition>() {
+			@Override
+			public int compare(Competition c1, Competition c2) {
+				return c1.getStartDateTime().compareTo(c2.getStartDateTime());
+			}
+		});
+
+		return competitions;
 	}
 
 }

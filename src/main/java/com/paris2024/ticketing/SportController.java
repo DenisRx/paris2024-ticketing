@@ -74,7 +74,7 @@ public class SportController {
 			return "redirect:/sports";
 		}
 
-		List<Competition> competitions = sportRestService.getSportCompetitions(sportId);
+		List<Competition> competitions = sportRestService.getSportCompetitionsOrderByDateTime(sportId);
 		List<Ticket> tickets = ticketService.getTicketsByUserEmail(principal.getName());
 		Map<Long, Long> competitionTicketCounts = new HashMap<>();
 
