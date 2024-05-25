@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import domain.Sport;
+import exception.SportNotFoundException;
 import repository.SportRepository;
 
 public class SportServiceImpl implements SportService {
@@ -19,7 +20,13 @@ public class SportServiceImpl implements SportService {
 	}
 
 	@Override
-	public Optional<Sport> getSportById(long sportId) {
-		return sportRepository.findById(sportId);
+	public Sport getSportById(long sportId) {
+		
+		Optional<Sport> sport = sportRepository.findById(sportId);
+		if (sport.isEmpty()) {
+			throw new SportNotFoundException(sportId);
+		}
+		
+		return sport.get();
 	}
 }

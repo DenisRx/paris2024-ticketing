@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,6 +21,7 @@ import domain.Competition;
 import domain.CompetitionCreationFormData;
 import domain.Sport;
 import domain.Ticket;
+import exception.SportNotFoundException;
 import jakarta.validation.Valid;
 import service.CompetitionService;
 import service.DisciplineService;
@@ -68,9 +68,10 @@ public class SportController {
 	@GetMapping("/{id}")
 	public String showSport(@PathVariable("id") long sportId, Model model, Authentication authentication,
 			Principal principal) {
-		Optional<Sport> sport = sportService.getSportById(sportId);
-
-		if (sport.isEmpty()) {
+		Sport sport = null;
+		try {
+			sport = sportService.getSportById(sportId);
+		} catch (SportNotFoundException e) {
 			return "redirect:/sports";
 		}
 
@@ -83,7 +84,7 @@ public class SportController {
 			competitionTicketCounts.put(competition.getId(), count);
 		}
 
-		model.addAttribute("sport", sport.get());
+		model.addAttribute("sport", sport);
 		model.addAttribute("competitions", competitions);
 		model.addAttribute("competitionTicketCounts", competitionTicketCounts);
 		model.addAttribute("userRole", getUserRole(authentication));

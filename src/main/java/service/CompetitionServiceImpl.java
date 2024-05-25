@@ -14,6 +14,7 @@ import domain.Discipline;
 import domain.Sport;
 import domain.Stage;
 import exception.CompetitionNotFoundException;
+import exception.SportNotFoundException;
 import repository.CompetitionRepository;
 import repository.DisciplineRepository;
 import repository.SportRepository;
@@ -45,6 +46,11 @@ public class CompetitionServiceImpl implements CompetitionService {
 
 	@Override
 	public List<Competition> getCompetitionsBySportId(long sportId) {
+		Optional<Sport> sport = sportRepository.findById(sportId);
+		if (sport.isEmpty()) {
+			throw new SportNotFoundException(sportId);
+		}
+
 		return competitionRepository.findAllBySportId(sportId);
 	}
 
