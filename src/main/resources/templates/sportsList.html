@@ -8,7 +8,9 @@
 
 	<h1 th:text="#{sports.title}"></h1>
 	
-	<a href="/tickets"><Button th:text="#{sports.viewTickets.button}"></Button></a>
+	<a th:if="${userRole == 'ROLE_USER'}" href="/tickets">
+		<button th:text="#{sports.viewTickets.button}"></button>
+	</a>
 	
 	<ul>
 		<li th:each="sport : ${sports}">

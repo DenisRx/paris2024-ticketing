@@ -20,7 +20,7 @@
 					<th th:text="#{sportDetails.table.disciplines}"></th>
 					<th th:text="#{sportDetails.table.placesLeft}"></th>
 					<th th:text="#{sportDetails.table.ticketPrice}"></th>
-					<th th:text="#{sportDetails.table.ticketsBought}"></th>
+					<th th:if="${userRole == 'ROLE_USER'}" th:text="#{sportDetails.table.ticketsBought}"></th>
 				</tr>
 			</thead>
 			<tbody th:each="competition, iter : ${competitions}">
@@ -34,7 +34,7 @@
 					</td>
 					<td th:text="${competition.remainingSeats}"></td>
 					<td th:text="|€${#numbers.formatDecimal(competition.ticketPrice, 2, 'COMMA', 2, 'POINT')}|"></td>
-					<td>
+					<td th:if="${userRole == 'ROLE_USER'}">
 						<th:block th:if="${competitionTicketCounts.get(competition.id) == 1}" th:text="|${competitionTicketCounts.get(competition.id)} #{sportDetails.table.ticketBoughtLabel}|"></th:block>
 						<th:block th:if="${competitionTicketCounts.get(competition.id) > 1}" th:text="|${competitionTicketCounts.get(competition.id)} #{sportDetails.table.ticketsBoughtLabel}|"></th:block>
 						<br/>
@@ -50,7 +50,7 @@
 		<p th:text="#{sportDetails.noCompetitions}"></p>
 	</div>
 
-	<a th:href="|${sport.id}/newCompetition|">
+	<a th:if="${userRole == 'ROLE_ADMIN'}" th:href="|${sport.id}/newCompetition|">
 		<button th:text="#{sportDetails.createCompetitionButton}"></button>
 	</a>
 

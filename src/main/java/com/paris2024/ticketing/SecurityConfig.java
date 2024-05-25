@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
+import domain.Role;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -30,9 +32,13 @@ public class SecurityConfig {
 					requests.requestMatchers("/login**").permitAll()
 							.requestMatchers("/css/**").permitAll()
 							.requestMatchers("/403**").permitAll()
-							.requestMatchers("/sports/**").permitAll()
-							.requestMatchers("/tickets/**").permitAll()
-							.requestMatchers("/competitions/**").permitAll())
+							.requestMatchers("/sports").hasAnyRole(Role.USER.toString(), Role.ADMIN.toString())
+							.requestMatchers("/sports/*").hasAnyRole(Role.USER.toString(), Role.ADMIN.toString())
+							.requestMatchers("/sports/*/newCompetition").hasRole(Role.ADMIN.toString())
+							.requestMatchers("/sports/*/competitions").permitAll()
+							.requestMatchers("/tickets**").hasRole(Role.USER.toString())
+							.requestMatchers("/competitions/*/purchase").hasRole(Role.USER.toString())
+							.requestMatchers("/competitions/*/availablePlaces").permitAll())
 				.formLogin(form ->
 					form.defaultSuccessUrl("/sports", true)
 						.loginPage("/login")

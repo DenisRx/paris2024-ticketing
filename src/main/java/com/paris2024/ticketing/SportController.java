@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,18 +56,18 @@ public class SportController {
 	private CompetitionCreationValidation competitionCreationValidation;
 
 	@GetMapping
-	public String showSports(Model model) {
+	public String showSports(Model model, Authentication authentication) {
 		model.addAttribute("sports", sportService.getSports());
+		model.addAttribute("userRole", getUserRole(authentication));
 
 		return "sportsList";
 	}
 
 	@GetMapping("/{id}")
-	public String showSport(@PathVariable("id") long sportId, Model model) {
+	public String showSport(@PathVariable("id") long sportId, Model model, Authentication authentication) {
 		Optional<Sport> sport = sportService.getSportById(sportId);
 
 		if (sport.isEmpty()) {
-			// TODO: replace by 404 page
 			return "redirect:/sports";
 		}
 
@@ -82,6 +84,7 @@ public class SportController {
 		model.addAttribute("sport", sport.get());
 		model.addAttribute("competitions", competitions);
 		model.addAttribute("competitionTicketCounts", competitionTicketCounts);
+		model.addAttribute("userRole", getUserRole(authentication));
 
 		return "sportDetails";
 	}
@@ -118,5 +121,9 @@ public class SportController {
 		}
 
 		return "redirect:/sports/" + sportId;
+	}
+
+	private String getUserRole(Authentication authentication) {
+		return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList().getFirst();
 	}
 }
