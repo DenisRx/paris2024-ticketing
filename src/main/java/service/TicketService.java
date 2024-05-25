@@ -5,7 +5,7 @@ import java.util.List;
 import domain.Ticket;
 
 public interface TicketService {
-	List<Ticket> getTicketsByUserId(long userId);
+	List<Ticket> getTicketsByUserEmail(String userEmail);
 
 	List<Ticket> getCompetitionTicketsByUserId(long competitionId, long userId);
 

@@ -1,5 +1,6 @@
 package com.paris2024.ticketing;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,15 +57,17 @@ public class SportController {
 	private CompetitionCreationValidation competitionCreationValidation;
 
 	@GetMapping
-	public String showSports(Model model, Authentication authentication) {
+	public String showSports(Model model, Authentication authentication, Principal principal) {
 		model.addAttribute("sports", sportService.getSports());
+		model.addAttribute("hasTickets", !ticketService.getTicketsByUserEmail(principal.getName()).isEmpty());
 		model.addAttribute("userRole", getUserRole(authentication));
 
 		return "sportsList";
 	}
 
 	@GetMapping("/{id}")
-	public String showSport(@PathVariable("id") long sportId, Model model, Authentication authentication) {
+	public String showSport(@PathVariable("id") long sportId, Model model, Authentication authentication,
+			Principal principal) {
 		Optional<Sport> sport = sportService.getSportById(sportId);
 
 		if (sport.isEmpty()) {
@@ -72,8 +75,7 @@ public class SportController {
 		}
 
 		List<Competition> competitions = sportRestService.getSportCompetitions(sportId);
-		// TODO: replace 3 by current user id
-		List<Ticket> tickets = ticketService.getTicketsByUserId((long) 3);
+		List<Ticket> tickets = ticketService.getTicketsByUserEmail(principal.getName());
 		Map<Long, Long> competitionTicketCounts = new HashMap<>();
 
 		for (Competition competition : competitions) {

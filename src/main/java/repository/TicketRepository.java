@@ -10,8 +10,8 @@ import domain.Ticket;
 
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
-	@Query("SELECT t FROM Ticket t JOIN t.user u WHERE u.id = :userId")
-	List<Ticket> findAllByUserId(@Param("userId") long userId);
+	@Query("SELECT t FROM Ticket t JOIN t.user u WHERE u.email = :userEmail")
+	List<Ticket> findAllByUserEmail(@Param("userEmail") String userEmail);
 
 	@Query("SELECT t FROM Ticket t JOIN t.competition c JOIN t.user u WHERE c.id = :competitionId AND u.id = :userId")
 	List<Ticket> findAllByCompetitionIdAndUserId(@Param("competitionId") long competitionId,

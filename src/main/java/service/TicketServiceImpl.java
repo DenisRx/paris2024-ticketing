@@ -25,8 +25,8 @@ public class TicketServiceImpl implements TicketService {
 	private UserRepository userRepository;
 
 	@Override
-	public List<Ticket> getTicketsByUserId(long userId) {
-		return ticketRepository.findAllByUserId(userId);
+	public List<Ticket> getTicketsByUserEmail(String userEmail) {
+		return ticketRepository.findAllByUserEmail(userEmail);
 	}
 
 	@Override
