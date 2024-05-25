@@ -17,7 +17,6 @@
 	<p th:text="|#{ticketsPurchase.competitionInformation.ticketPrice}: ${competition.ticketPrice}|"></p>
 	
 	<p th:if="${purchasedTicketsCount > 0}" th:text="|#{ticketsPurchase.purchasedTickets.label.part1} ${purchasedTicketsCount} #{ticketsPurchase.purchasedTickets.label.part2}|"></p>
-	<p th:unless="${purchasedTicketsCount > 0}" th:text="#{ticketsPurchase.purchasedTickets.none.label}"></p>
 	
 	<form th:action="@{purchase}" th:object="${formData}" method="post">
 		<div th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" th:errorclass="error"></div>
