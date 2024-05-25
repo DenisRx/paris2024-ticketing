@@ -6,6 +6,11 @@
 </head>
 <body>
 
+	<form th:action="@{/logout}" method="post">
+		<button th:text="#{logout.button}" type="submit"></button>
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	</form>
+
 	<h1 th:text="#{sports.title}"></h1>
 	
 	<a th:if="${userRole == 'ROLE_USER' && hasTickets}" href="/tickets">

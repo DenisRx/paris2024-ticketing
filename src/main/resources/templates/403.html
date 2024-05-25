@@ -4,17 +4,24 @@
 <meta charset="UTF-8">
 <title th:text="#{access.denied}"></title>
 <link rel="stylesheet" th:href="@{/css/style.css}" />
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
 </head>
 <body>
 	<header>
 		
 	</header>
-	<h1>HTTP Status 403 - Access is denied</h1>
+	<h1 th:text="#{access.denied}"></h1>
+
+	<div class="back-button">
+		<button th:text="#{back.button}" onclick="goBack()"></button>
+    </div>
 
 	<form th:action="@{/logout}" method="post">
-		<input type="submit" value="Logout" />
-		<p th:text="${user}"></p> 
-		<p th:text="${userRole}"></p>
+		<button th:text="#{logout.button}" type="submit"></button>
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	</form>
 </body>
