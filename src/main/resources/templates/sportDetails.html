@@ -25,7 +25,7 @@
 			</thead>
 			<tbody th:each="competition, iter : ${competitions}">
 				<tr>
-					<td th:text="${competition.startDateTime}"></td>
+					<td th:with="df=#{date.format.pattern}" th:text="${#dates.format(competition.startDateTime, df)}"></td>
 					<td th:text="${competition.stage.name}"></td>
 					<td>
 						<ul th:each="discipline : ${competition.disciplines}">

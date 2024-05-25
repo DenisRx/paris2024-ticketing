@@ -9,7 +9,7 @@
 	<h1 th:text="#{tickets.mainTitle}"></h1>
 	
 	<ul th:if="${tickets != null && tickets.empty == false}">
-		<li th:each="ticket : ${tickets}" th:text="|${ticket.competition.sport.name}, ${ticket.competition.startDateTime} -> ${ticket.competition.stage.name}|"></li>
+		<li th:each="ticket : ${tickets}" th:with="df=#{date.format.pattern}" th:text="|${ticket.competition.sport.name}, ${#dates.format(ticket.competition.startDateTime, df)} -> ${ticket.competition.stage.name}|"></li>
 	</ul>
 	
 	<p th:unless="${tickets != null && tickets.empty == false}" th:text="#{tickets.noTickets}"></p>

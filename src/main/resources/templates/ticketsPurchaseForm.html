@@ -11,10 +11,10 @@
 	
 	<h3 th:text="#{ticketsPurchase.competitionInformation.header}"></h3>
 	
-	<p th:text="|#{ticketsPurchase.competitionInformation.date}: ${competition.startDateTime}|"></p>
+	<p th:with="df=#{date.format.pattern}" th:text="|#{ticketsPurchase.competitionInformation.date}: ${#dates.format(competition.startDateTime, df)}|"></p>
 	<p th:text="|#{ticketsPurchase.competitionInformation.stage}: ${competition.stage.name}|"></p>
 	<p th:text="|#{ticketsPurchase.competitionInformation.remainingPlace}: ${availablePlaces}|"></p>
-	<p th:text="|#{ticketsPurchase.competitionInformation.ticketPrice}: ${competition.ticketPrice}|"></p>
+	<p th:text="|#{ticketsPurchase.competitionInformation.ticketPrice}: €${competition.ticketPrice}|"></p>
 	
 	<p th:if="${purchasedTicketsCount > 0}" th:text="|#{ticketsPurchase.purchasedTickets.label.part1} ${purchasedTicketsCount} #{ticketsPurchase.purchasedTickets.label.part2}|"></p>
 	
