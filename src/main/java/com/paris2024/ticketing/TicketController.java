@@ -1,5 +1,7 @@
 package com.paris2024.ticketing;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,8 @@ public class TicketController {
 	private TicketService ticketService;
 
 	@GetMapping
-	public String showTickets(Model model) {
-		// TODO: replace 3 by current user id
-		model.addAttribute("tickets", ticketService.getTicketsByUserId((long) 3));
+	public String showTickets(Model model, Principal principal) {
+		model.addAttribute("tickets", ticketService.getTicketsByUserEmail(principal.getName()));
 
 		return "ticketsList";
 	}

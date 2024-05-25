@@ -30,22 +30,22 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public List<Ticket> getCompetitionTicketsByUserId(long competitionId, long userId) {
-		return ticketRepository.findAllByCompetitionIdAndUserId(competitionId, userId);
+	public List<Ticket> getCompetitionTicketsByUserEmail(long competitionId, String userEmail) {
+		return ticketRepository.findAllByCompetitionIdAndUserEmail(competitionId, userEmail);
 	}
 
 	@Override
-	public List<Ticket> purchaseTickets(long competitionId, long userId, int ticketsCount) {
+	public List<Ticket> purchaseTickets(long competitionId, String userEmail, int ticketsCount) {
 		Optional<Competition> competition = competitionRepository.findById(competitionId);
-		Optional<User> user = userRepository.findById(userId);
+		User user = userRepository.findByEmail(userEmail);
 
-		if (!competition.isPresent() || !user.isPresent()) {
+		if (competition.isEmpty() || user == null) {
 			return null;
 		}
 
 		List<Ticket> tickets = new ArrayList<>();
 		for (int i = 0; i < ticketsCount; i++) {
-			tickets.add(new Ticket(user.get(), competition.get()));
+			tickets.add(new Ticket(user, competition.get()));
 		}
 
 		return (List<Ticket>) ticketRepository.saveAll(tickets);

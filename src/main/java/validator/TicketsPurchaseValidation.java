@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -28,6 +31,15 @@ public class TicketsPurchaseValidation implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		String userEmail = null;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			userEmail = userDetails.getUsername();
+		} else {
+			errors.reject("ticketsPurchase.validation.user.notAuthenticated");
+		}
+
 		TicketsPurchaseFormData formData = (TicketsPurchaseFormData) target;
 
 		int newTicketsCount = formData.getTicketsCount();
@@ -42,18 +54,15 @@ public class TicketsPurchaseValidation implements Validator {
 			errors.rejectValue("ticketsCount", "ticketsPurchase.validation.competition.seats.notEnough");
 		}
 
-		// TODO: Replace 3 by current user id
-		List<Ticket> competitionTickets = ticketService.getCompetitionTicketsByUserId(formData.getCompetitionId(), 3);
+		List<Ticket> competitionTickets = ticketService.getCompetitionTicketsByUserEmail(formData.getCompetitionId(), userEmail);
 		if (newTicketsCount > 20 || competitionTickets.size() + newTicketsCount > 20) {
 			errors.rejectValue("ticketsCount", "ticketsPurchase.validation.competition.limit");
 		}
 
-		// TODO: Replace 3 by current user id
-		List<Ticket> allUserTickets = ticketService.getTicketsByUserId(3);
+		List<Ticket> allUserTickets = ticketService.getTicketsByUserEmail(userEmail);
 		if (newTicketsCount + allUserTickets.size() > 100) {
 			errors.rejectValue("ticketsCount", "ticketsPurchase.validation.competitions.limit");
 		}
-
 	}
 
 }

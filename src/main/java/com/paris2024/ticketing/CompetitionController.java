@@ -1,5 +1,6 @@
 package com.paris2024.ticketing;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +41,13 @@ public class CompetitionController {
 	private TicketsPurchaseValidation ticketsPurchaseValidation;
 
 	@GetMapping("{id}/purchase")
-	public String showCompetitionTicketsPurchaseForm(@PathVariable("id") long competitionId, Model model) {
+	public String showCompetitionTicketsPurchaseForm(@PathVariable("id") long competitionId, Model model, Principal principal) {
 		Optional<Competition> competition = competitionService.getCompetitionById(competitionId);
-		if (!competition.isPresent()) {
-			// TODO: replace by 404 page
+		if (competition.isEmpty()) {
 			return "redirect:/sports";
 		}
 
-		// TODO: Replace 3 by current user id
-		List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserId(competition.get().getId(), 3);
+		List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(), principal.getName());
 
 		CompetitionPlaces competitionPlaces = competitionRestService.getCompetitionAvailablePlaces(competitionId);
 		model.addAttribute("availablePlaces", competitionPlaces.getAvailablePlaces());
@@ -62,15 +61,16 @@ public class CompetitionController {
 	@PostMapping("{id}/purchase")
 	public String onPurchaseSubmit(@PathVariable("id") long competitionId,
 			@ModelAttribute("formData") TicketsPurchaseFormData formData, BindingResult result, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Principal principal) {
 
 		formData.setCompetitionId(competitionId);
 		ticketsPurchaseValidation.validate(formData, result);
 
+		String userEmail = principal.getName();
+
 		if (result.hasErrors()) {
 			Optional<Competition> competition = competitionService.getCompetitionById(competitionId);
-			// TODO: Replace 3 by current user id
-			List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserId(competition.get().getId(), 3);
+			List<Ticket> purchasedTickets = ticketService.getCompetitionTicketsByUserEmail(competition.get().getId(), userEmail);
 			model.addAttribute("competition", competition.get());
 			model.addAttribute("purchasedTicketsCount", purchasedTickets.size());
 
@@ -78,9 +78,9 @@ public class CompetitionController {
 		}
 
 		int ticketsCount = formData.getTicketsCount();
-		// TODO: Replace 3 by current user id
-		if (ticketService.purchaseTickets(competitionId, 3, ticketsCount) == null) {
-			// TODO: display error
+		if (ticketService.purchaseTickets(competitionId, userEmail, ticketsCount) == null) {
+			result.reject("ticketsPurchase.creation.failed");
+			return "ticketsPurchaseForm";
 		}
 
 		Optional<Competition> competition = competitionService.getCompetitionById(competitionId);

@@ -7,7 +7,7 @@ import domain.Ticket;
 public interface TicketService {
 	List<Ticket> getTicketsByUserEmail(String userEmail);
 
-	List<Ticket> getCompetitionTicketsByUserId(long competitionId, long userId);
+	List<Ticket> getCompetitionTicketsByUserEmail(long competitionId, String userEmail);
 
-	List<Ticket> purchaseTickets(long competitionId, long userId, int ticketsCount);
+	List<Ticket> purchaseTickets(long competitionId, String userEmail, int ticketsCount);
 }
